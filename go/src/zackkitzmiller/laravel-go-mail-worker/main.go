@@ -16,6 +16,7 @@ type Message struct {
 		ToName  string
 		Subject string
 		Body    string
+		From    string
 	}
 }
 
@@ -31,8 +32,9 @@ func main() {
 }
 
 func consumeFromBeanstalk(c chan Message) {
+	beanstalkdConn := os.Getenv("BEANSTALKD")
 
-	conn, err := gobeanstalk.Dial("localhost:11300")
+	conn, err := gobeanstalk.Dial(beanstalkdConn)
 	if err != nil {
 		log.Printf("connect failed")
 		log.Fatal(err)
@@ -79,7 +81,7 @@ func sendMail(c chan Message) {
 		message.AddToName(m.Data.ToName)
 		message.AddSubject(m.Data.Subject)
 		message.AddText(m.Data.Body)
-
+		message.AddFrom(m.Data.From)
 		if r := sg.Send(message); r == nil {
 			log.Println("Email sent!")
 		} else {

@@ -19,7 +19,8 @@ class QueueEmailCommand extends Command {
             'to' => 'zack@inrpce.com',
             'toname' => 'Zack Kitzmiller',
             'subject' => 'Hello From Go!',
-            'body' => 'Through Beanstalkd'
+            'body' => 'Through Beanstalkd',
+            'from' => 'zack@inrpce.com'
         );
         Queue::push('', $message);
     }
