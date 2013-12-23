@@ -42,6 +42,14 @@ func consumeFromBeanstalk(c chan Message) {
 
 	log.Printf("Connected to Beanstalk")
 
+	cnt, err := conn.Watch("emails")
+	if err != nil {
+		log.Println("Unable to watch email queue")
+		log.Fatal(err)
+	}
+
+	log.Println("Current Tube Count: %d", cnt)
+
 	for {
 		j, err := conn.Reserve()
 		if err != nil {

@@ -22,6 +22,6 @@ class QueueEmailCommand extends Command {
             'body' => 'Through Beanstalkd',
             'from' => 'zack@inrpce.com'
         );
-        Queue::push('', $message);
+        Queue::push('', $message, 'emails');
     }
 }
