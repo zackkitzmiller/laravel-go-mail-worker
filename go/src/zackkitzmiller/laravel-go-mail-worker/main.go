@@ -31,7 +31,7 @@ func main() {
 	fmt.Scanln(&userInput)
 }
 
-func consumeFromBeanstalk(c chan Message) {
+func consumeFromBeanstalk(c chan<- Message) {
 	beanstalkdConn := os.Getenv("BEANSTALKD")
 
 	conn, err := gobeanstalk.Dial(beanstalkdConn)
@@ -76,7 +76,7 @@ func consumeFromBeanstalk(c chan Message) {
 	}
 }
 
-func sendMail(c chan Message) {
+func sendMail(c <-chan Message) {
 	sendgridUser := os.Getenv("SENDGRID_USER")
 	sendgridPass := os.Getenv("SENDGRID_PASS")
 	sg := sendgrid.NewSendGridClient(sendgridUser, sendgridPass)
